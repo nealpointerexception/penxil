@@ -1,0 +1,65 @@
+.button
+{
+-fx-background-color : #253D52;
+-fx-text-fill : #e7e5e5;
+}
+.button:hover{
+-fx-background-color : #2A6F93;
+}
+.button:pressed
+{
+-fx-background-color : #E4563A;
+}
+
+
+.move-button
+{
+-fx-background-color : #769cbf;
+-fx-text-fill : #e7e5e5;
+}
+.move-button:hover{
+-fx-background-color : #98bde0;
+}
+.move-button:pressed
+{
+-fx-background-color : #7995af;
+}
+
+
+.side-pane {
+    -fx-background-color : #1C3041;
+}
+
+.main-pane {
+    -fx-background-color: #FDFAFA;
+}
+
+.item-pane {
+    -fx-background-color: #96B9BF;
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #1C3041;
+    -fx-background-radius: 5em;
+}
+
+.scroll-pane > .corner {
+    -fx-background-color: #FDFAFA;
+}
