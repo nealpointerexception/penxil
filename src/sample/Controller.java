@@ -1,6 +1,7 @@
 package sample;
 
 
+import animatefx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -10,18 +11,21 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.WindowEvent;
-import org.yaml.snakeyaml.DumperOptions;
+import org.controlsfx.control.Notifications;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class Controller implements Initializable {
     @FXML
@@ -39,62 +43,60 @@ public class Controller implements Initializable {
     @FXML
     private DatePicker datePicker;
 
-    private ArrayList<ItemController> controllers = new ArrayList<>();
+    @FXML
+    AnchorPane parent_pane;
 
-    private  boolean serialized = false;
+    private static ArrayList<ItemController> controllers = new ArrayList<>();
+    private String currentView = "list";
+    private  boolean serialized = false, attached = false;
     // add in each item in list view.
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+
+
+
         all_items_pane.toFront();
+        serialized = false;
         InputStream input = null;
         try {
              input = new FileInputStream(new File(
-                    "/home/nealc/Documents/gitprojs/penxil/src/sample/save.yaml"));
+                    Main.savePath));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-        Object data = Main.yaml.loadAll(input);
+        Object data = Main.yaml.load(input);
         HashMap<String, String> map = (HashMap<String, String>)data;
+        if(map != null)
+        for(int i  = 0; i < map.size()/2; i++){
+            Node node;
 
-        System.out.println(map);
+            try {
+                node = FXMLLoader.load(getClass().getResource("item.fxml"));
+                controllers.add(0, new ItemController(node, list_panel));
+                controllers.get(0).setText(map.get("text"+i));
+                controllers.get(0).setDate(LocalDate.parse(map.get("date"+i),
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-//        while (true) {
-//            try {
-//                Object object = Main.yamlReader.read();
-//                System.out.println(object);
-//                Map data = (Map)object;
-//                if (data == null) break;
-//                Node node;
-//
-//                node = FXMLLoader.load(getClass().getResource("item.fxml"));
-//                controllers.add(0, new ItemController(node, list_panel));
-//                controllers.get(0).setText((String)data.get("text"));
-//                //controllers.get(0).setDate();
-//
-//
-//            }
-//            catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//
-//        }
-//
-//        try {
-//            Main.yamlReader.close();
-//        }
-//        catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        }
 
+        notesTabBtn.setOnMouseEntered((MouseEvent event) -> new Pulse(notesTabBtn).setSpeed(1).play());
+        newTabBtn.setOnMouseEntered((MouseEvent event) -> new Pulse(newTabBtn).setSpeed(1).play());
+        createNoteBtn.setOnMouseEntered((MouseEvent event) -> new Pulse(createNoteBtn).play());
+        //System.out.println(map);
 
     }
 
     private <T extends Event> void closeWindowEvent(T t)  {
-        FileWriter writer = null;
+
         if(!serialized) {
+            FileWriter writer = null;
             try {
-                writer = new FileWriter("/home/nealc/Documents/gitprojs/penxil/src/sample/save.yaml");
+                writer = new FileWriter(Main.savePath);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -102,36 +104,51 @@ public class Controller implements Initializable {
             ItemController[] ordered = new ItemController[controllers.size()];
 
             for (ItemController controller : controllers) {
+                //System.out.println(controller.getIndex());
+                if(controller.getIndex() != -1)
                  ordered[controller.getIndex()] = controller;
             }
-            for(ItemController controller : ordered){
-                Map<String, String> data = new HashMap<>();
-                data.put("text", controller.getText());
-                data.put("date", controller.getDate());
+            //System.out.println(Arrays.toString(ordered));
+            for(int i = 0; i < ordered.length; i++){
+                if(ordered[i] != null) {
+                    Map<String, String> data = new HashMap<>();
+                    data.put("text" + i, ordered[i].getText());
+                    data.put("date" + i, ordered[i].getDate());
 
 
-                Main.yaml.dump(data, writer);
+                    Main.yaml.dump(data, writer);
 
-
+                }
             }
             serialized = true;
         }
 
+
     }
 
     public void handleClicks(ActionEvent actionEvent) {
-        all_items_pane.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowEvent);
         if (actionEvent.getSource() == notesTabBtn) {
             //notesTabBtn.setStyle("-fx-background-color : #E4563A;");
+            if(!currentView.equals("list")) {
+                new FadeIn(all_items_pane).setSpeed(2).play();
+                currentView = "list";
+            }
 
             all_items_pane.toFront();
+
+
         }
         if (actionEvent.getSource() == newTabBtn) {
             //newTabBtn.setStyle("-fx-background-color : #E4563A;");
+            if(!currentView.equals("new")) {
+                new FadeIn(create_todo_pane).setSpeed(2).play();
+                currentView = "new";
+            }
             notesTabBtn.applyCss();
             create_todo_pane.toFront();
         }
         if(actionEvent.getSource() == createNoteBtn){
+            new Tada(createNoteBtn).setSpeed(1).play();
             Node node;
             try {
                 node = FXMLLoader.load(getClass().getResource("item.fxml"));
@@ -140,8 +157,11 @@ public class Controller implements Initializable {
                 controllers.get(0).setDate(datePicker.getValue());
 
 
+                Notifications.create().title("New Note:").text(newNoteBody.getText()).show();
+
                 newNoteBody.clear();
                 datePicker.setValue(null);
+
 
                 //yamlWriter.write("---");
 
@@ -154,6 +174,14 @@ public class Controller implements Initializable {
         }
 
     }
-
+    public void bindExit(){
+        if(!attached) {
+            all_items_pane.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowEvent);
+            attached = true;
+        }
+    }
+    public static void removeController(int index){
+        controllers.remove(index);
+    }
 
 }

@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.0" prefWidth="619.0" style="-fx-background-color: #cdcfd3; -fx-border-color: #FDFAFA; -fx-border-width: 3px;" styleClass="item-pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="620.0" style="-fx-background-color: #cdcfd3; -fx-border-color: #FDFAFA;" styleClass="item-pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="noteLbl" prefHeight="58.0" prefWidth="177.0" text="Note text here">
+      <Label fx:id="noteLbl" prefHeight="45.0" prefWidth="274.0" text="Note text here">
          <HBox.margin>
             <Insets left="15.0" />
          </HBox.margin>
@@ -21,7 +21,7 @@
       </Label>
       <DatePicker fx:id="date" prefHeight="26.0" prefWidth="139.0" style="-fx-background-color: #FAFAFA; -fx-border-radius: 10px;">
          <HBox.margin>
-            <Insets left="100.0" top="10.0" />
+            <Insets left="10.0" top="10.0" />
          </HBox.margin>
       </DatePicker>
       <Button fx:id="downBtn" mnemonicParsing="false" prefHeight="38.0" prefWidth="40.0" style="-fx-background-radius: 25px; -fx-background-color: #cccccc;" styleClass="move-button" stylesheets="@style.css">
@@ -48,7 +48,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button minHeight="0.0" mnemonicParsing="false" prefHeight="6.0" prefWidth="27.0" style="-fx-background-color: #f90000;">
+      <Button fx:id="removeBtn" minHeight="0.0" mnemonicParsing="false" prefHeight="6.0" prefWidth="27.0" style="-fx-background-color: #f90000;">
          <HBox.margin>
             <Insets left="40.0" top="19.5" />
          </HBox.margin>

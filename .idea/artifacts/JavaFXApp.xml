@@ -4,6 +4,13 @@
     <properties id="javafx-properties">
       <options>
         <option name="appClass" value="sample.Main" />
+        <option name="description" value="" />
+        <option name="height" value="476" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="title" value="Penxil" />
+        <option name="vendor" value="nealpointerexception" />
+        <option name="version" value="" />
+        <option name="width" value="733" />
       </options>
     </properties>
     <root id="root">

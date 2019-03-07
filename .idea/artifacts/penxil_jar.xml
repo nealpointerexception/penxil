@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="penxil:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/penxil_jar</output-path>
+    <root id="archive" name="penxil.jar">
+      <element id="module-output" name="penxil" />
+    </root>
+  </artifact>
+</component>

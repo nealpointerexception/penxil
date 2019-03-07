@@ -9,12 +9,15 @@ import javafx.stage.Stage;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 
 public class Main extends Application {
 
+    public static String savePath = "";
     public static Yaml yaml;
 
     @Override
@@ -28,6 +31,16 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
+
+        savePath = System.getProperty("user.home")+"/.config/penxil/save.yaml";
+        File pathToFile = new File(savePath);
+        pathToFile.getParentFile().mkdirs();
+        try {
+            new FileOutputStream(savePath, true).close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         DumperOptions ops = new DumperOptions();
         ops.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
 
