@@ -8,8 +8,9 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="JavaFXApp.jar" size="13172" download="eager" />
+    <jar href="JavaFXApp.jar" size="18632" download="eager" />
     <jar href="libs/animatefx-1.2.1.jar" size="94267" download="eager" />
+    <jar href="libs/controlsfx-8.40.14.jar" size="1215643" download="eager" />
     <jar href="libs/snakeyaml-1.5.jar" size="222501" download="eager" />
   </resources>
   <jfx:javafx-desc  width="733" height="476" main-class="sample.Main"  name="JavaFXApp" />

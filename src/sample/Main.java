@@ -18,11 +18,17 @@ import java.util.Map;
 public class Main extends Application {
 
     public static String savePath = "";
+    public static String historyPath = "";
     public static Yaml yaml;
-
+    public static Controller ctrl;
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("home.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                "home.fxml"));
+        Parent root = loader.load();
+        ctrl = loader.getController();
+
+        //Parent root = FXMLLoader.load(getClass().getResource("home.fxml"));
 
         primaryStage.setTitle("Penxil");
         primaryStage.setScene(new Scene(root, 733, 476));
@@ -33,10 +39,12 @@ public class Main extends Application {
     public static void main(String[] args) {
 
         savePath = System.getProperty("user.home")+"/.config/penxil/save.yaml";
+        historyPath = System.getProperty("user.home")+"/.config/penxil/hist.yaml";
         File pathToFile = new File(savePath);
         pathToFile.getParentFile().mkdirs();
         try {
             new FileOutputStream(savePath, true).close();
+            new FileOutputStream(historyPath, true).close();
         } catch (Exception e) {
             e.printStackTrace();
         }
